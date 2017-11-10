@@ -12,9 +12,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class UriCount {
+public class UriCount_HongyuanLi151 {
 
-    public static class UriMapper extends Mapper<Object, Text, Text, IntWritable> {
+    public static class UriMapper_HongyuanLi151 extends Mapper<Object, Text, Text, IntWritable> {
 
 	public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 	    String s = value.toString();
@@ -28,7 +28,7 @@ public class UriCount {
 	}
     }
 
-    public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public static class IntSumReducer_HongyuanLi151 extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 	public void reduce(Text key, Iterable<IntWritable> values, Context context)
 		throws IOException, InterruptedException {
@@ -43,10 +43,10 @@ public class UriCount {
     public static void main(String[] args) throws Exception {
 	Configuration conf = new Configuration();
 	Job job = Job.getInstance(conf, "URI Count");
-	job.setJarByClass(UriCount.class);
-	job.setMapperClass(UriMapper.class);
-	job.setCombinerClass(IntSumReducer.class);
-	job.setReducerClass(IntSumReducer.class);
+	job.setJarByClass(UriCount_HongyuanLi151.class);
+	job.setMapperClass(UriMapper_HongyuanLi151.class);
+	job.setCombinerClass(IntSumReducer_HongyuanLi151.class);
+	job.setReducerClass(IntSumReducer_HongyuanLi151.class);
 	job.setOutputKeyClass(Text.class);
 	job.setOutputValueClass(IntWritable.class);
 	FileInputFormat.addInputPath(job, new Path(args[0]));

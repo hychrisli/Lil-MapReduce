@@ -4,7 +4,7 @@ import sys
 from pyspark import SparkConf, SparkContext
 
 
-class UriCount:
+class UriCount_HongyuanLi151:
 
 
     def __init__(self, input, output):
@@ -15,10 +15,15 @@ class UriCount:
         self.output = output
 
     def mapreduce(self):
-        pair_rdd = self.input_rdd.map(UriCount.__parser__)
+        pair_rdd = self.input_rdd.map(self.__parser__)
         reduce_rdd = pair_rdd.reduceByKey(lambda x, y: x + y)
-        UriCount.__writer__(reduce_rdd.collect(), self.output)
-        UriCount.__writer__(reduce_rdd.sortBy(lambda  x: (x[1], x[0])).collect(), self.output + '_sorted')
+        sorted_rdd = reduce_rdd.sortBy(lambda x: (x[1], x[0]))
+        sorted_rdd\
+            .map(lambda x: x[0] + '\t' + str(x[1]))\
+            .coalesce(1)\
+            .saveAsTextFile(self.output)
+        # self.__writer__(reduce_rdd.collect(), self.output)
+        # self.__writer__(reduce_rdd.sortBy(lambda  x: (x[1], x[0])).collect(), self.output)
 
     @staticmethod
     def __parser__(x):
@@ -31,14 +36,6 @@ class UriCount:
             uri = uri[:rbound]
         return (uri, 1)
 
-    @staticmethod
-    def __writer__(res, file):
-
-        f = open(file, 'w')
-        for (key, value) in res:
-            f.write(key + '\t' + str(value) + '\n')
-        f.close()
-
 if __name__ == '__main__':
-    task = UriCount(sys.argv[1], sys.argv[2])
+    task = UriCount_HongyuanLi151(sys.argv[1], sys.argv[2])
     task.mapreduce()

@@ -4,15 +4,15 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.WritableComparable;
 
-public class Pair implements WritableComparable<Pair> {
+public class Pair_HongyuanLi151 implements WritableComparable<Pair_HongyuanLi151> {
 
     public String uri;
     public Integer cnt;
 
-    public Pair() {
+    public Pair_HongyuanLi151() {
     }
 
-    public Pair(String uri, Integer cnt) {
+    public Pair_HongyuanLi151(String uri, Integer cnt) {
 	this.uri = uri;
 	this.cnt = cnt;
     }
@@ -28,7 +28,7 @@ public class Pair implements WritableComparable<Pair> {
 	out.writeInt(cnt);
     }
 
-    public int compareTo(Pair that) {
+    public int compareTo(Pair_HongyuanLi151 that) {
 
 	int cmp = compareInt(this.cnt, that.cnt);
 	if (cmp != 0)
